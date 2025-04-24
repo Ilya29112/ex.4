@@ -1,25 +1,42 @@
 <?php
-function isPerfect($n)
+function isPerfectNumber(int $num): bool
 {
-    if ($n <= 1) return false;
+    if ($num <= 1) {
+        return false;
+    }
 
-    $sum = 0;
-    for ($i = 1; $i <= $n / 2; $i++) {
-        if ($n % $i === 0) {
+    $sum = 1;
+    for ($i = 2; $i <= sqrt($num); $i++) {
+        if ($num % $i === 0) {
             $sum += $i;
+            $otherDivisor = $num / $i;
+            if ($otherDivisor !== $i) {
+                $sum += $otherDivisor;
+            }
         }
     }
-    return $sum == $n;
+
+    return $sum === $num;
+}
+function findPerfectNumbers(array $numbers): array
+{
+    $perfectNumbers = [];
+    foreach ($numbers as $num) {
+        if (isPerfectNumber($num)) {
+            $perfectNumbers[] = $num;
+        }
+    }
+    return $perfectNumbers;
 }
 
-echo "Проверка совершенных чисел\n";
-echo "Введите число: ";
-$num = (int)trim(fgets(STDIN));
+echo "Введите числа через пробел: ";
+$input = trim(fgets(STDIN));
+$numbers = array_map('intval', explode(' ', $input));
 
-if (isPerfect($num)) {
-    echo "$num - совершенное число!\n";
+$perfectNumbers = findPerfectNumbers($numbers);
+
+if (empty($perfectNumbers)) {
+    echo "В массиве нет идеальных чисел." . PHP_EOL;
 } else {
-    echo "$num - НЕ совершенное число\n";
+    echo "Идеальные числа в массиве: " . implode(', ', $perfectNumbers) . PHP_EOL;
 }
-
-echo "Примеры: 6, 28, 496, 8128\n";

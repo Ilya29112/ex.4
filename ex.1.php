@@ -1,14 +1,13 @@
 <?php
-
-function alphabeticalOrder($str)
+function alphabeticalOrder(string $str): string
 {
-    $letters = str_split($str);
-    sort($letters);
-    return implode($letters);
+    $chars = str_split($str);
+    sort($chars);
+    return implode('', $chars);
 }
 
-echo "Введите строку: ";
-$userInput = trim(fgets(STDIN));
+echo "Введите строку для сортировки: ";
+$input = trim(fgets(STDIN));
 
-$sorted = alphabeticalOrder($userInput);
-echo "Отсортированная строка: " . $sorted . "\n";
+$result = alphabeticalOrder($input);
+echo "Результат сортировки: " . $result . PHP_EOL;
